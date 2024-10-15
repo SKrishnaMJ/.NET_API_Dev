@@ -15,8 +15,8 @@ namespace MyWebApi.Controllers
             return Ok(VillaStore.villaList);
         }
 
-        [HttpGet("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("{id:int}", Name = "GetVilla")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<VillaDTO> GetVilla(int id)
@@ -50,7 +50,7 @@ namespace MyWebApi.Controllers
             villaDto.Id = VillaStore.villaList.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
             VillaStore.villaList.Add(villaDto);
 
-            return Ok(villaDto);
+            return CreatedAtRoute("GetVilla", new { id = villaDto.Id }, villaDto);
         }
     }
 }
