@@ -8,4 +8,7 @@ public class VillaDTO
     [Required]
     [MaxLength(20)]
     public string Name { get; set; }
+    public int Sqft { get; set; }
+
+    public string Occupancy { get; set; }
 }
