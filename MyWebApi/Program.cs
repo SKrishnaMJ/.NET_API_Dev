@@ -1,11 +1,26 @@
+// using Serilog;
+
+using MyWebApi;
+using MyWebApi.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// This below line is to configure the serilog package installed from nuget to log to a file
+// Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+// .WriteTo.File("log/apiDevLogs.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+
+// // This below line is now telling the application to use serilog rather than the built in logger package
+// builder.Host.UseSerilog();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddControllers();
+builder.Services.AddControllers(option =>
+{
+    // option.ReturnHttpNotAcceptable = true;
+}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<ILogging, Logging>();
 var app = builder.Build();
 
 app.MapControllers();
