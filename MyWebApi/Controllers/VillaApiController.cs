@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using MyWebApi.Logging;
 using MyWebApi.Models;
 
 namespace MyWebApi.Controllers
@@ -12,16 +11,16 @@ namespace MyWebApi.Controllers
     {
         // Logger is a built in package and we can use it use dependency injection like down here
         // _logger is a private variable
-        private readonly ILogging _logger;
-        public VillaApiController(ILogging logger)
+
+        public VillaApiController()
         {
-            _logger = logger;
+
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
-            _logger.Logg("Getting all the details", "");
+
             return Ok(VillaStore.villaList);
         }
 
@@ -34,7 +33,7 @@ namespace MyWebApi.Controllers
         {
             if (id == 0)
             {
-                _logger.Logg("Get villa error with id" + id, "error");
+
                 return BadRequest();
             }
             var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
